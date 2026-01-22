@@ -17,7 +17,7 @@ def access_and_load_db():
     except Exception as e:
         print(f'db err: {e}')
     # define 'document' as described on the paper
-    # 2* weight on short_name
+    # increase weight on short_name
     data = data.fillna('')
     data['document'] = (
         data['name'] + " " + 
@@ -25,6 +25,7 @@ def access_and_load_db():
         data['summary'] + " " + 
         data['description']
     )
+    #print(type(data))
     return data
 
 
@@ -43,22 +44,25 @@ def get_recommendations(query, data, tfidf_vectorizer, tfidf_matrix):
     return data.iloc[top_five]
 
 if __name__ == "__main__":
-    data = access_and_load_db()
+    try:
+        data = access_and_load_db()
 
-    stop_words = list(text.ENGLISH_STOP_WORDS)
-    lemmatized_stop_words = [lemmatize.lemmatize(word) for word in stop_words]
+        stop_words = list(text.ENGLISH_STOP_WORDS)
+        lemmatized_stop_words = [lemmatize.lemmatize(word) for word in stop_words]
 
-    tfidf = TfidfVectorizer(
-        preprocessor=lemmatize_text,
-        stop_words=lemmatized_stop_words,
-        token_pattern=r"\b\w\w+\b"
-    )
-    tfidf_matrix = tfidf.fit_transform(data['document'])
+        tfidf = TfidfVectorizer(
+            preprocessor=lemmatize_text,
+            stop_words=lemmatized_stop_words,
+            token_pattern=r"\b\w\w+\b"
+        )
+        tfidf_matrix = tfidf.fit_transform(data['document'])
 
-    usr_input = input("Enter what you're looking for in an organization: ")
-    res = get_recommendations(usr_input, data, tfidf, tfidf_matrix)
+        usr_input = input("Enter what you're looking for in an organization: ")
+        res = get_recommendations(usr_input, data, tfidf, tfidf_matrix)
 
-    print(f'top 5 matches for {usr_input}:')
-    res_display = res[['name', 'short_name']].reset_index(drop=True)
-    res_display.index = res_display.index + 1
-    print(res_display)
+        print(f'top 5 matches for {usr_input}:')
+        res_display = res[['name', 'short_name']].reset_index(drop=True)
+        res_display.index = res_display.index + 1
+        print(res_display)
+    except Exception as e:
+        print(f'error: {e}')
