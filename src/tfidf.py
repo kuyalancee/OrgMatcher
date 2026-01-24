@@ -7,6 +7,7 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 import sqlite3
 import string
+from synonyms import SYNONYM_MAP
 
 def access_and_load_db():
     conn = sqlite3.connect("db_and_csvs/unt_clubs.db")
@@ -31,14 +32,20 @@ def access_and_load_db():
 
 # define lemmatizer
 lemmatize = WordNetLemmatizer()
-def lemmatize_text(text):
+def lemmatize_text(text, expand_synonyms=True):
     text = text.lower().translate(str.maketrans('','', string.punctuation))
-    terms = text.split()
-    return " ".join([lemmatize.lemmatize(word) for word in terms])
+    words = text.split()
+    # dont expand synonym_map for stopwords
+    if expand_synonyms:
+        new_words = [SYNONYM_MAP.get(word, word) for word in words]
+    else:
+        new_words = words
+    return " ".join([lemmatize.lemmatize(word) for word in new_words])
 
 
 def get_recommendations(query, data, tfidf_vectorizer, tfidf_matrix):
-    query_vectorized = tfidf_vectorizer.transform([query])
+    expanded_query = lemmatize_text(query, expand_synonyms=True)
+    query_vectorized = tfidf_vectorizer.transform([expanded_query])
     cosine_sim = cosine_similarity(query_vectorized, tfidf_matrix)
     top_five = np.argsort(cosine_sim[0])[-5:][::-1]
     return data.iloc[top_five]
@@ -48,10 +55,10 @@ if __name__ == "__main__":
         data = access_and_load_db()
 
         stop_words = list(text.ENGLISH_STOP_WORDS)
-        lemmatized_stop_words = [lemmatize.lemmatize(word) for word in stop_words]
+        lemmatized_stop_words = [lemmatize_text(word, expand_synonyms=False) for word in stop_words]
 
         tfidf = TfidfVectorizer(
-            preprocessor=lemmatize_text,
+            preprocessor=lambda x: lemmatize_text(x, expand_synonyms=False),
             stop_words=lemmatized_stop_words,
             token_pattern=r"\b\w\w+\b"
         )
