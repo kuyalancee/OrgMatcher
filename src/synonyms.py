@@ -17,6 +17,7 @@ SYNONYM_MAP = {
     "eng": "english",
     "fin": "finance",
     "frat": "fraternity",
+    "frats": "fraternity",
     "gov": "government",
     "greek": "greek life",
     "hist": "history",
