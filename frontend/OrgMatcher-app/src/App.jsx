@@ -36,6 +36,7 @@ function App() {
           OrgMatcher<span className="app__title-dot">.</span>
         </h1>
         <p className="app__tagline">Find your people at UNT.</p>
+        <p className="app__tagline">Describe your hobbies, interests, or career aspirations. We'll do the matching.</p>
       </header>
 
       <div className="app__search-section">
