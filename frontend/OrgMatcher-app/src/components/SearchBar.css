@@ -21,6 +21,7 @@
 
 .search-bar__textarea::placeholder {
   color: var(--color-text-secondary);
+  opacity: 0.5;
 }
 
 .search-bar__textarea:focus {
