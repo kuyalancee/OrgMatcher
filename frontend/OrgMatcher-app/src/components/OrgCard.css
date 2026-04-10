@@ -1,0 +1,111 @@
+.org-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: card-reveal 300ms ease forwards;
+}
+
+.org-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+@keyframes card-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Image */
+.org-card__image-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.org-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.org-card__image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* Rank badge */
+.org-card__rank {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* Body */
+.org-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px;
+  gap: 6px;
+}
+
+.org-card__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.org-card__acronym {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.org-card__summary {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.org-card__link {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: text-decoration var(--transition-fast);
+  align-self: flex-start;
+}
+
+.org-card__link:hover {
+  text-decoration: underline;
+}

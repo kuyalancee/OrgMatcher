@@ -78,17 +78,26 @@ class OrgMatcher:
     def search(self, query, top_n=5):
         if not query:
             return []
-            
+
         expanded_query = self._lemmatize_text(query, expand_synonyms=True)
         query_vectorized = self.tfidf_vectorizer.transform([expanded_query])
         cosine_sim = cosine_similarity(query_vectorized, self.tfidf_matrix)
-        
+
         # get top 5 most relevant
         top_indices = np.argsort(cosine_sim[0])[-top_n:][::-1]
-        
-        # return as list of dicts for display
-        results = self.data.iloc[top_indices]
-        return results[['name', 'short_name', 'summary', 'description']].to_dict(orient='records')
+
+        # select available columns; include optional fields if present in db
+        base_cols = ['name', 'short_name', 'summary', 'description']
+        optional_cols = ['picture', 'url']
+        present_cols = base_cols + [c for c in optional_cols if c in self.data.columns]
+
+        rows = self.data.iloc[top_indices][present_cols].to_dict(orient='records')
+
+        # rename short_name -> acronym to match frontend contract
+        for row in rows:
+            row['acronym'] = row.pop('short_name')
+
+        return rows
 
 if __name__ == "__main__":
     try:
