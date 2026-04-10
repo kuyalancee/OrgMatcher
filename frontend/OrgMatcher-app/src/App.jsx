@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import ResultsGrid from './components/ResultsGrid'
@@ -49,6 +50,8 @@ function App() {
       <div className="app__results-section">
         <ResultsGrid results={results} isLoading={isLoading} />
       </div>
+      
+      <Analytics />
     </div>
   )
 }
