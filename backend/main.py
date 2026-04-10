@@ -36,9 +36,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+import os
+
+frontend_url = os.environ.get("FRONTEND_URL", "https://org-matcher.vercel.app/")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        frontend_url,
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
