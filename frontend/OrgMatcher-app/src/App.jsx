@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import ResultsGrid from './components/ResultsGrid'
@@ -35,7 +36,6 @@ function App() {
           OrgMatcher<span className="app__title-dot">.</span>
         </h1>
         <p className="app__tagline">Find your people at UNT.</p>
-        <p className="app__tagline">Describe your hobbies, interests, or career aspirations. We'll do the matching.</p>
       </header>
 
       <div className="app__search-section">
@@ -49,6 +49,8 @@ function App() {
       <div className="app__results-section">
         <ResultsGrid results={results} isLoading={isLoading} />
       </div>
+      
+      <Analytics />
     </div>
   )
 }
