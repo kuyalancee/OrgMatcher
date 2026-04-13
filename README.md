@@ -23,7 +23,7 @@ The User will be directly guided to the front page of the website, where they wi
 </p>
 
 Clicking "Find My Orgs" will return the five most relevant organizations that match the user's interests.  
-In this example, the user inputs "I am a student interested in Computer Science and looking to make new friends on campus"
+In this example, the user inputs "I am a student interested in Computer Science and looking to make new friends on campus".
 
 <p align="center">
   <img src="docs/images/results.png" width="70%" alt="results" />
@@ -38,5 +38,5 @@ The user can also click "Visit Organization" to go to the organization's webpage
 ## Tech Stack
 - Frontend: React + Vite (Plain JSX)
 - Backend: FastAPI + Python
-- NLP & Data: Scikit-Learn (TF-IDF, Cosine Similarity), NLTK (Lemmatization), SQLite (database), BeautifulSoup (scraping)
-- Deployment: Vercel (frontend), GCP (backend)
+- NLP & Data: Scikit-Learn (TF-IDF, Cosine Similarity), NLTK (Lemmatization), SQLite (Database), BeautifulSoup (Scraping)
+- Deployment: Vercel (Frontend), GCP (Backend)
